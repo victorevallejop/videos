@@ -10,7 +10,6 @@
     :root {
       --navy: #143e5d;
       --navy-dark: #0d2e46;
-      --blue: #174f78;
       --teal: #268c91;
       --amber: #e99a18;
       --red: #c6403a;
@@ -19,7 +18,6 @@
       --text: #183149;
       --muted: #667788;
       --line: #d5dde5;
-      --shadow: 0 10px 28px rgb(15 46 70 / 14%);
     }
 
     * {
@@ -28,19 +26,22 @@
 
     html,
     body {
+      width: 100%;
+      height: 100%;
       margin: 0;
-      min-height: 100%;
+      overflow: hidden;
     }
 
     body {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      height: 100dvh;
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       background: var(--background);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
 
+    /* HEADER UTFSM */
     .site-header {
       position: relative;
       background: var(--navy);
@@ -59,28 +60,28 @@
       flex: 1;
     }
 
-    .color-bars .red {
+    .red {
       background: var(--red);
     }
 
-    .color-bars .amber {
+    .amber {
       background: var(--amber);
     }
 
-    .color-bars .teal {
+    .teal {
       background: var(--teal);
     }
 
     .header-content {
-      width: min(1180px, calc(100% - 32px));
+      width: min(1180px, calc(100% - 24px));
       margin: 0 auto;
-      padding: 18px 24px 17px 32px;
+      padding: 11px 18px 10px 30px;
     }
 
     .unit {
-      margin: 0 0 5px;
+      margin: 0 0 3px;
       color: #a9d6dc;
-      font-size: 0.74rem;
+      font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.1em;
       text-transform: uppercase;
@@ -88,59 +89,81 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(1.45rem, 3.2vw, 2.35rem);
-      line-height: 1.08;
+      font-size: clamp(1.25rem, 2.6vw, 2rem);
+      line-height: 1.05;
     }
 
     .subtitle {
-      margin: 6px 0 0;
+      margin: 4px 0 0;
       color: #dce8ef;
-      font-size: clamp(0.88rem, 1.7vw, 1.06rem);
+      font-size: clamp(0.76rem, 1.4vw, 0.95rem);
     }
 
+    /* CONTENIDO CENTRAL */
     main {
-      width: min(1180px, calc(100% - 32px));
-      margin: 24px auto;
-      flex: 1;
+      width: min(1180px, calc(100% - 20px));
+      height: 100%;
+      min-height: 0;
+      margin: 7px auto;
+      display: flex;
     }
 
     .video-card {
+      width: 100%;
+      height: 100%;
+      min-height: 0;
       overflow: hidden;
+
+      display: grid;
+      grid-template-rows:
+        auto
+        minmax(0, 1fr)
+        auto;
+
       background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 13px;
-      box-shadow: var(--shadow);
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgb(15 46 70 / 14%);
     }
 
     .card-label {
-      display: inline-block;
-      margin: 18px 0 0 20px;
-      padding: 7px 14px;
+      justify-self: start;
+      margin: 7px 0 0 12px;
+      padding: 5px 11px;
       border-radius: 6px 6px 0 0;
       background: var(--teal);
       color: white;
-      font-size: 0.76rem;
+      font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
     .player-shell {
-      padding: 0 20px 20px;
+      min-height: 0;
+      padding: 0 12px 8px;
+
+      display: grid;
+      grid-template-rows:
+        minmax(0, 1fr)
+        auto;
     }
 
     .video-stage {
       position: relative;
+      width: 100%;
+      height: 100%;
+      min-height: 0;
       overflow: hidden;
       background: #000;
-      border-radius: 0 10px 10px;
-      aspect-ratio: 16 / 9;
+      border-radius: 0 8px 0 0;
     }
 
     video {
       display: block;
       width: 100%;
       height: 100%;
+      max-height: 100%;
       background: #000;
       object-fit: contain;
     }
@@ -148,38 +171,44 @@
     .center-play {
       position: absolute;
       inset: 50% auto auto 50%;
-      width: 72px;
-      height: 72px;
+      width: 66px;
+      height: 66px;
       transform: translate(-50%, -50%);
       border: 0;
       border-radius: 50%;
       background: rgb(20 62 93 / 88%);
       color: white;
       cursor: pointer;
-      font-size: 2rem;
-      box-shadow: 0 6px 18px rgb(0 0 0 / 30%);
+      font-size: 1.8rem;
     }
 
     .center-play[hidden] {
       display: none;
     }
 
+    /* CONTROLES */
     .controls {
       display: grid;
-      grid-template-columns: auto minmax(90px, 1fr) auto auto auto;
-      gap: 10px;
+      grid-template-columns:
+        auto
+        minmax(80px, 1fr)
+        auto
+        auto
+        auto;
+
+      gap: 8px;
       align-items: center;
-      padding: 11px 12px;
+      padding: 7px 9px;
       background: var(--navy-dark);
       color: white;
     }
 
     .control-button {
-      min-width: 42px;
-      height: 38px;
-      padding: 0 12px;
+      min-width: 38px;
+      height: 33px;
+      padding: 0 9px;
       border: 1px solid rgb(255 255 255 / 20%);
-      border-radius: 7px;
+      border-radius: 6px;
       background: rgb(255 255 255 / 8%);
       color: white;
       cursor: pointer;
@@ -200,38 +229,47 @@
     }
 
     .time {
-      min-width: 102px;
+      min-width: 95px;
       color: #d7e3ea;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       text-align: center;
       white-space: nowrap;
     }
 
+    /* INFORMACIÓN */
     .information {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
-      gap: 18px;
+      gap: 12px;
       align-items: center;
-      padding: 18px 20px 20px;
+      padding: 7px 12px 9px;
     }
 
     .description h2 {
-      margin: 0 0 6px;
+      margin: 0 0 2px;
       color: var(--navy);
-      font-size: 1.08rem;
+      font-size: 0.95rem;
     }
 
     .description p {
       margin: 0;
       color: var(--muted);
-      line-height: 1.5;
+      font-size: 0.78rem;
+      line-height: 1.25;
+    }
+
+    .share-message {
+      min-height: 0;
+      margin-top: 2px !important;
+      color: var(--teal) !important;
+      font-size: 0.72rem !important;
     }
 
     .share-button {
-      min-width: 136px;
-      padding: 11px 17px;
+      min-width: 135px;
+      padding: 9px 13px;
       border: 0;
-      border-radius: 8px;
+      border-radius: 7px;
       background: var(--teal);
       color: white;
       cursor: pointer;
@@ -241,23 +279,16 @@
 
     .share-button:hover,
     .share-button:focus-visible {
-      background: var(--blue);
+      background: var(--navy);
       outline: none;
     }
 
-    .share-message {
-      min-height: 1.2em;
-      margin: 8px 0 0;
-      color: var(--teal);
-      font-size: 0.82rem;
-    }
-
+    /* FOOTER */
     footer {
-      margin-top: auto;
-      padding: 11px 20px;
+      padding: 5px 14px;
       background: var(--navy);
       color: #dce8ef;
-      font-size: 0.78rem;
+      font-size: 0.68rem;
     }
 
     .footer-content {
@@ -265,30 +296,64 @@
       margin: 0 auto;
       display: flex;
       justify-content: space-between;
-      gap: 20px;
+      gap: 16px;
     }
 
-    @media (max-width: 720px) {
-      main {
-        width: min(100% - 18px, 1180px);
-        margin: 12px auto;
+    /* PANTALLAS DE POCA ALTURA */
+    @media (max-height: 650px) {
+      .unit {
+        display: none;
       }
 
       .header-content {
-        width: calc(100% - 16px);
-        padding-right: 12px;
+        padding-top: 7px;
+        padding-bottom: 7px;
+      }
+
+      h1 {
+        font-size: 1.25rem;
+      }
+
+      .description p:not(.share-message) {
+        display: none;
+      }
+
+      .information {
+        padding-top: 5px;
+        padding-bottom: 6px;
+      }
+
+      footer {
+        padding-top: 4px;
+        padding-bottom: 4px;
+      }
+    }
+
+    /* PANTALLAS ESTRECHAS */
+    @media (max-width: 720px) {
+      main {
+        width: calc(100% - 10px);
+        margin-top: 5px;
+        margin-bottom: 5px;
+      }
+
+      .header-content {
+        width: calc(100% - 10px);
+        padding-left: 25px;
+        padding-right: 8px;
       }
 
       .player-shell {
-        padding: 0 10px 12px;
-      }
-
-      .card-label {
-        margin-left: 10px;
+        padding-left: 6px;
+        padding-right: 6px;
       }
 
       .controls {
-        grid-template-columns: auto 1fr auto;
+        grid-template-columns:
+          auto
+          minmax(50px, 1fr)
+          auto
+          auto;
       }
 
       .time {
@@ -296,22 +361,30 @@
       }
 
       .information {
-        grid-template-columns: 1fr;
+        grid-template-columns: minmax(0, 1fr) auto;
+        gap: 6px;
       }
 
       .share-button {
-        width: 100%;
+        min-width: auto;
+        padding-left: 9px;
+        padding-right: 9px;
       }
 
       .footer-content {
-        flex-direction: column;
-        gap: 3px;
+        justify-content: center;
+        text-align: center;
+      }
+
+      .footer-content span:first-child {
+        display: none;
       }
     }
   </style>
 </head>
 
 <body>
+
   <header class="site-header">
     <div class="color-bars" aria-hidden="true">
       <span class="red"></span>
@@ -321,7 +394,9 @@
 
     <div class="header-content">
       <p class="unit">Unidad 1 · Trigonometría</p>
+
       <h1>Desfase horizontal de una sinusoide</h1>
+
       <p class="subtitle">
         Clase 7 · Gráficas de funciones trigonométricas
       </p>
@@ -330,10 +405,15 @@
 
   <main>
     <article class="video-card">
-      <div class="card-label">Explicación en video</div>
+
+      <div class="card-label">
+        Explicación en video
+      </div>
 
       <div class="player-shell">
+
         <div class="video-stage" id="videoStage">
+
           <video
             id="video"
             playsinline
@@ -358,9 +438,11 @@
           >
             ▶
           </button>
+
         </div>
 
-        <div class="controls" aria-label="Controles del video">
+        <div class="controls">
+
           <button
             id="playPause"
             class="control-button"
@@ -381,7 +463,9 @@
             aria-label="Posición del video"
           >
 
-          <span id="time" class="time">0:00 / 0:00</span>
+          <span id="time" class="time">
+            0:00 / 0:00
+          </span>
 
           <button
             id="mute"
@@ -400,22 +484,35 @@
           >
             ⛶
           </button>
+
         </div>
       </div>
 
       <section class="information">
+
         <div class="description">
           <h2>Desfase o diferencia de fase</h2>
+
           <p>
             Interpretación gráfica del parámetro horizontal de una función
             sinusoidal y de su efecto sobre la posición de la curva.
           </p>
-          <p id="shareMessage" class="share-message" aria-live="polite"></p>
+
+          <p
+            id="shareMessage"
+            class="share-message"
+            aria-live="polite"
+          ></p>
         </div>
 
-        <button id="share" class="share-button" type="button">
-          Compartir explicación
+        <button
+          id="share"
+          class="share-button"
+          type="button"
+        >
+          Compartir
         </button>
+
       </section>
     </article>
   </main>
@@ -425,6 +522,7 @@
       <span>
         Matemática I / Elementos de la Matemática · UTFSM Viña del Mar
       </span>
+
       <span>
         Profesor Víctor Eduardo Vallejo Palacios
       </span>
@@ -449,6 +547,7 @@
       }
 
       const minutes = Math.floor(seconds / 60);
+
       const remainingSeconds = Math.floor(seconds % 60)
         .toString()
         .padStart(2, "0");
@@ -460,20 +559,13 @@
       const playing = !video.paused && !video.ended;
 
       playPause.textContent = playing ? "❚❚" : "▶";
-      playPause.setAttribute(
-        "aria-label",
-        playing ? "Pausar" : "Reproducir"
-      );
 
       centerPlay.hidden = playing;
     }
 
     function togglePlayback() {
       if (video.paused || video.ended) {
-        video.play().catch(() => {
-          shareMessage.textContent =
-            "El navegador bloqueó la reproducción automática.";
-        });
+        video.play();
       } else {
         video.pause();
       }
@@ -514,11 +606,8 @@
 
     mute.addEventListener("click", () => {
       video.muted = !video.muted;
+
       mute.textContent = video.muted ? "🔇" : "🔊";
-      mute.setAttribute(
-        "aria-label",
-        video.muted ? "Activar sonido" : "Silenciar"
-      );
     });
 
     fullscreen.addEventListener("click", async () => {
@@ -530,7 +619,7 @@
         }
       } catch {
         shareMessage.textContent =
-          "La pantalla completa no está disponible en este navegador.";
+          "Pantalla completa no disponible.";
       }
     });
 
@@ -538,29 +627,28 @@
       const shareData = {
         title: "Desfase horizontal de una sinusoide",
         text:
-          "Explicación de Víctor Eduardo Vallejo Palacios sobre el desfase de una función sinusoidal.",
+          "Explicación de Víctor Eduardo Vallejo Palacios.",
         url: window.location.href
       };
 
       try {
         if (navigator.share) {
           await navigator.share(shareData);
-          shareMessage.textContent = "Enlace compartido correctamente.";
           return;
         }
 
         await navigator.clipboard.writeText(window.location.href);
+
         shareMessage.textContent =
-          "El enlace de la explicación fue copiado al portapapeles.";
-      } catch (error) {
-        if (error.name !== "AbortError") {
-          shareMessage.textContent =
-            "No fue posible compartir. Copia la dirección desde el navegador.";
-        }
+          "Enlace copiado al portapapeles.";
+      } catch {
+        shareMessage.textContent =
+          "No fue posible compartir el enlace.";
       }
     });
 
     updatePlayButtons();
   </script>
+
 </body>
 </html>
