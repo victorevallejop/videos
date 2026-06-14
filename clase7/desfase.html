@@ -713,6 +713,17 @@ video.addEventListener("loadedmetadata", () => {
       }
     });
 
+window.addEventListener("resize", fitVideoToAvailableSpace);
+
+if ("ResizeObserver" in window) {
+  const videoResizeObserver =
+    new ResizeObserver(fitVideoToAvailableSpace);
+
+  videoResizeObserver.observe(videoFit);
+}
+
+fitVideoToAvailableSpace();
+    
     updatePlayButtons();
   </script>
 
