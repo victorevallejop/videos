@@ -4,110 +4,563 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Desfase de una sinusoide</title>
+  <title>Desfase horizontal de una sinusoide</title>
 
   <style>
     :root {
-      --navy: #123d5d;
-      --teal: #248a91;
+      --navy: #143e5d;
+      --navy-dark: #0d2e46;
+      --blue: #174f78;
+      --teal: #268c91;
       --amber: #e99a18;
+      --red: #c6403a;
       --background: #eef2f6;
+      --card: #ffffff;
       --text: #183149;
+      --muted: #667788;
+      --line: #d5dde5;
+      --shadow: 0 10px 28px rgb(15 46 70 / 14%);
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html,
     body {
       margin: 0;
+      min-height: 100%;
+    }
+
+    body {
       min-height: 100vh;
-      display: grid;
-      place-items: center;
-      padding: 24px;
+      display: flex;
+      flex-direction: column;
       background: var(--background);
       color: var(--text);
       font-family: Arial, Helvetica, sans-serif;
     }
 
-    main {
-      width: min(1050px, 100%);
-      overflow: hidden;
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 30px rgb(0 0 0 / 12%);
-    }
-
-    header {
-      padding: 22px 28px;
-      border-left: 8px solid var(--amber);
+    .site-header {
+      position: relative;
       background: var(--navy);
       color: white;
+      box-shadow: 0 3px 8px rgb(0 0 0 / 14%);
+    }
+
+    .color-bars {
+      position: absolute;
+      inset: 0 auto 0 0;
+      display: flex;
+      width: 15px;
+    }
+
+    .color-bars span {
+      flex: 1;
+    }
+
+    .color-bars .red {
+      background: var(--red);
+    }
+
+    .color-bars .amber {
+      background: var(--amber);
+    }
+
+    .color-bars .teal {
+      background: var(--teal);
+    }
+
+    .header-content {
+      width: min(1180px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 18px 24px 17px 32px;
+    }
+
+    .unit {
+      margin: 0 0 5px;
+      color: #a9d6dc;
+      font-size: 0.74rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     h1 {
-      margin: 0 0 6px;
-      font-size: clamp(1.45rem, 3vw, 2.2rem);
-    }
-
-    header p {
       margin: 0;
-      opacity: 0.88;
+      font-size: clamp(1.45rem, 3.2vw, 2.35rem);
+      line-height: 1.08;
     }
 
-    .contenido {
-      padding: 24px;
+    .subtitle {
+      margin: 6px 0 0;
+      color: #dce8ef;
+      font-size: clamp(0.88rem, 1.7vw, 1.06rem);
+    }
+
+    main {
+      width: min(1180px, calc(100% - 32px));
+      margin: 24px auto;
+      flex: 1;
+    }
+
+    .video-card {
+      overflow: hidden;
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: 13px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-label {
+      display: inline-block;
+      margin: 18px 0 0 20px;
+      padding: 7px 14px;
+      border-radius: 6px 6px 0 0;
+      background: var(--teal);
+      color: white;
+      font-size: 0.76rem;
+      font-weight: 800;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+
+    .player-shell {
+      padding: 0 20px 20px;
+    }
+
+    .video-stage {
+      position: relative;
+      overflow: hidden;
+      background: #000;
+      border-radius: 0 10px 10px;
+      aspect-ratio: 16 / 9;
     }
 
     video {
       display: block;
       width: 100%;
-      max-height: 72vh;
+      height: 100%;
       background: #000;
-      border-radius: 10px;
+      object-fit: contain;
     }
 
-    .acciones {
-      display: flex;
-      justify-content: center;
-      margin-top: 18px;
+    .center-play {
+      position: absolute;
+      inset: 50% auto auto 50%;
+      width: 72px;
+      height: 72px;
+      transform: translate(-50%, -50%);
+      border: 0;
+      border-radius: 50%;
+      background: rgb(20 62 93 / 88%);
+      color: white;
+      cursor: pointer;
+      font-size: 2rem;
+      box-shadow: 0 6px 18px rgb(0 0 0 / 30%);
     }
 
-    .acciones a {
-      display: inline-block;
-      padding: 11px 18px;
+    .center-play[hidden] {
+      display: none;
+    }
+
+    .controls {
+      display: grid;
+      grid-template-columns: auto minmax(90px, 1fr) auto auto auto;
+      gap: 10px;
+      align-items: center;
+      padding: 11px 12px;
+      background: var(--navy-dark);
+      color: white;
+    }
+
+    .control-button {
+      min-width: 42px;
+      height: 38px;
+      padding: 0 12px;
+      border: 1px solid rgb(255 255 255 / 20%);
+      border-radius: 7px;
+      background: rgb(255 255 255 / 8%);
+      color: white;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 700;
+    }
+
+    .control-button:hover,
+    .control-button:focus-visible {
+      background: var(--teal);
+      outline: none;
+    }
+
+    .progress {
+      width: 100%;
+      accent-color: var(--amber);
+      cursor: pointer;
+    }
+
+    .time {
+      min-width: 102px;
+      color: #d7e3ea;
+      font-size: 0.8rem;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .information {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
+      padding: 18px 20px 20px;
+    }
+
+    .description h2 {
+      margin: 0 0 6px;
+      color: var(--navy);
+      font-size: 1.08rem;
+    }
+
+    .description p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+
+    .share-button {
+      min-width: 136px;
+      padding: 11px 17px;
+      border: 0;
       border-radius: 8px;
       background: var(--teal);
       color: white;
-      font-weight: 700;
-      text-decoration: none;
+      cursor: pointer;
+      font: inherit;
+      font-weight: 800;
+    }
+
+    .share-button:hover,
+    .share-button:focus-visible {
+      background: var(--blue);
+      outline: none;
+    }
+
+    .share-message {
+      min-height: 1.2em;
+      margin: 8px 0 0;
+      color: var(--teal);
+      font-size: 0.82rem;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 11px 20px;
+      background: var(--navy);
+      color: #dce8ef;
+      font-size: 0.78rem;
+    }
+
+    .footer-content {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    @media (max-width: 720px) {
+      main {
+        width: min(100% - 18px, 1180px);
+        margin: 12px auto;
+      }
+
+      .header-content {
+        width: calc(100% - 16px);
+        padding-right: 12px;
+      }
+
+      .player-shell {
+        padding: 0 10px 12px;
+      }
+
+      .card-label {
+        margin-left: 10px;
+      }
+
+      .controls {
+        grid-template-columns: auto 1fr auto;
+      }
+
+      .time {
+        display: none;
+      }
+
+      .information {
+        grid-template-columns: 1fr;
+      }
+
+      .share-button {
+        width: 100%;
+      }
+
+      .footer-content {
+        flex-direction: column;
+        gap: 3px;
+      }
     }
   </style>
 </head>
 
 <body>
-  <main>
-    <header>
+  <header class="site-header">
+    <div class="color-bars" aria-hidden="true">
+      <span class="red"></span>
+      <span class="amber"></span>
+      <span class="teal"></span>
+    </div>
+
+    <div class="header-content">
+      <p class="unit">Unidad 1 · Trigonometría</p>
       <h1>Desfase horizontal de una sinusoide</h1>
-      <p>Clase 7 · Gráficas de funciones trigonométricas</p>
-    </header>
+      <p class="subtitle">
+        Clase 7 · Gráficas de funciones trigonométricas
+      </p>
+    </div>
+  </header>
 
-    <section class="contenido">
-      <video controls playsinline preload="metadata">
-        <source
-          src="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4"
-          type="video/mp4">
+  <main>
+    <article class="video-card">
+      <div class="card-label">Explicación en video</div>
 
-        Tu navegador no permite reproducir este video.
-      </video>
+      <div class="player-shell">
+        <div class="video-stage" id="videoStage">
+          <video
+            id="video"
+            playsinline
+            preload="metadata"
+            controlslist="nodownload noremoteplayback"
+            disablepictureinpicture
+            oncontextmenu="return false;"
+          >
+            <source
+              src="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4"
+              type="video/mp4"
+            >
 
-      <div class="acciones">
-        <a
-          href="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4">
-          Abrir o descargar el video
-        </a>
+            Tu navegador no permite reproducir este video.
+          </video>
+
+          <button
+            id="centerPlay"
+            class="center-play"
+            type="button"
+            aria-label="Reproducir video"
+          >
+            ▶
+          </button>
+        </div>
+
+        <div class="controls" aria-label="Controles del video">
+          <button
+            id="playPause"
+            class="control-button"
+            type="button"
+            aria-label="Reproducir"
+          >
+            ▶
+          </button>
+
+          <input
+            id="progress"
+            class="progress"
+            type="range"
+            min="0"
+            max="100"
+            value="0"
+            step="0.1"
+            aria-label="Posición del video"
+          >
+
+          <span id="time" class="time">0:00 / 0:00</span>
+
+          <button
+            id="mute"
+            class="control-button"
+            type="button"
+            aria-label="Silenciar"
+          >
+            🔊
+          </button>
+
+          <button
+            id="fullscreen"
+            class="control-button"
+            type="button"
+            aria-label="Pantalla completa"
+          >
+            ⛶
+          </button>
+        </div>
       </div>
-    </section>
+
+      <section class="information">
+        <div class="description">
+          <h2>Desfase o diferencia de fase</h2>
+          <p>
+            Interpretación gráfica del parámetro horizontal de una función
+            sinusoidal y de su efecto sobre la posición de la curva.
+          </p>
+          <p id="shareMessage" class="share-message" aria-live="polite"></p>
+        </div>
+
+        <button id="share" class="share-button" type="button">
+          Compartir explicación
+        </button>
+      </section>
+    </article>
   </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>
+        Matemática I / Elementos de la Matemática · UTFSM Viña del Mar
+      </span>
+      <span>
+        Profesor Víctor Eduardo Vallejo Palacios
+      </span>
+    </div>
+  </footer>
+
+  <script>
+    const video = document.getElementById("video");
+    const videoStage = document.getElementById("videoStage");
+    const centerPlay = document.getElementById("centerPlay");
+    const playPause = document.getElementById("playPause");
+    const progress = document.getElementById("progress");
+    const time = document.getElementById("time");
+    const mute = document.getElementById("mute");
+    const fullscreen = document.getElementById("fullscreen");
+    const share = document.getElementById("share");
+    const shareMessage = document.getElementById("shareMessage");
+
+    function formatTime(seconds) {
+      if (!Number.isFinite(seconds)) {
+        return "0:00";
+      }
+
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = Math.floor(seconds % 60)
+        .toString()
+        .padStart(2, "0");
+
+      return `${minutes}:${remainingSeconds}`;
+    }
+
+    function updatePlayButtons() {
+      const playing = !video.paused && !video.ended;
+
+      playPause.textContent = playing ? "❚❚" : "▶";
+      playPause.setAttribute(
+        "aria-label",
+        playing ? "Pausar" : "Reproducir"
+      );
+
+      centerPlay.hidden = playing;
+    }
+
+    function togglePlayback() {
+      if (video.paused || video.ended) {
+        video.play().catch(() => {
+          shareMessage.textContent =
+            "El navegador bloqueó la reproducción automática.";
+        });
+      } else {
+        video.pause();
+      }
+    }
+
+    centerPlay.addEventListener("click", togglePlayback);
+    playPause.addEventListener("click", togglePlayback);
+    video.addEventListener("click", togglePlayback);
+
+    video.addEventListener("play", updatePlayButtons);
+    video.addEventListener("pause", updatePlayButtons);
+    video.addEventListener("ended", updatePlayButtons);
+
+    video.addEventListener("loadedmetadata", () => {
+      time.textContent =
+        `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    });
+
+    video.addEventListener("timeupdate", () => {
+      const percentage = video.duration
+        ? (video.currentTime / video.duration) * 100
+        : 0;
+
+      progress.value = percentage;
+
+      time.textContent =
+        `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+    });
+
+    progress.addEventListener("input", () => {
+      if (!video.duration) {
+        return;
+      }
+
+      video.currentTime =
+        (Number(progress.value) / 100) * video.duration;
+    });
+
+    mute.addEventListener("click", () => {
+      video.muted = !video.muted;
+      mute.textContent = video.muted ? "🔇" : "🔊";
+      mute.setAttribute(
+        "aria-label",
+        video.muted ? "Activar sonido" : "Silenciar"
+      );
+    });
+
+    fullscreen.addEventListener("click", async () => {
+      try {
+        if (!document.fullscreenElement) {
+          await videoStage.requestFullscreen();
+        } else {
+          await document.exitFullscreen();
+        }
+      } catch {
+        shareMessage.textContent =
+          "La pantalla completa no está disponible en este navegador.";
+      }
+    });
+
+    share.addEventListener("click", async () => {
+      const shareData = {
+        title: "Desfase horizontal de una sinusoide",
+        text:
+          "Explicación de Víctor Eduardo Vallejo Palacios sobre el desfase de una función sinusoidal.",
+        url: window.location.href
+      };
+
+      try {
+        if (navigator.share) {
+          await navigator.share(shareData);
+          shareMessage.textContent = "Enlace compartido correctamente.";
+          return;
+        }
+
+        await navigator.clipboard.writeText(window.location.href);
+        shareMessage.textContent =
+          "El enlace de la explicación fue copiado al portapapeles.";
+      } catch (error) {
+        if (error.name !== "AbortError") {
+          shareMessage.textContent =
+            "No fue posible compartir. Copia la dirección desde el navegador.";
+        }
+      }
+    });
+
+    updatePlayButtons();
+  </script>
 </body>
 </html>
