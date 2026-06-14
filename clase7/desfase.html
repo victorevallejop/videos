@@ -1,1 +1,115 @@
+```html
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  <title>Desfase de una sinusoide</title>
+
+  <style>
+    :root {
+      --navy: #123d5d;
+      --teal: #248a91;
+      --amber: #e99a18;
+      --background: #eef2f6;
+      --text: #183149;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--background);
+      color: var(--text);
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    main {
+      width: min(1050px, 100%);
+      overflow: hidden;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 10px 30px rgb(0 0 0 / 12%);
+    }
+
+    header {
+      padding: 22px 28px;
+      border-left: 8px solid var(--amber);
+      background: var(--navy);
+      color: white;
+    }
+
+    h1 {
+      margin: 0 0 6px;
+      font-size: clamp(1.45rem, 3vw, 2.2rem);
+    }
+
+    header p {
+      margin: 0;
+      opacity: 0.88;
+    }
+
+    .contenido {
+      padding: 24px;
+    }
+
+    video {
+      display: block;
+      width: 100%;
+      max-height: 72vh;
+      background: #000;
+      border-radius: 10px;
+    }
+
+    .acciones {
+      display: flex;
+      justify-content: center;
+      margin-top: 18px;
+    }
+
+    .acciones a {
+      display: inline-block;
+      padding: 11px 18px;
+      border-radius: 8px;
+      background: var(--teal);
+      color: white;
+      font-weight: 700;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+  <main>
+    <header>
+      <h1>Desfase horizontal de una sinusoide</h1>
+      <p>Clase 7 · Gráficas de funciones trigonométricas</p>
+    </header>
+
+    <section class="contenido">
+      <video controls playsinline preload="metadata">
+        <source
+          src="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4"
+          type="video/mp4">
+
+        Tu navegador no permite reproducir este video.
+      </video>
+
+      <div class="acciones">
+        <a
+          href="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4">
+          Abrir o descargar el video
+        </a>
+      </div>
+    </section>
+  </main>
+</body>
+</html>
+```
