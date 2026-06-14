@@ -569,6 +569,7 @@
     const fullscreen = document.getElementById("fullscreen");
     const share = document.getElementById("share");
     const shareMessage = document.getElementById("shareMessage");
+    const videoFit = document.getElementById("videoFit");
 
     function formatTime(seconds) {
       if (!Number.isFinite(seconds)) {
@@ -592,6 +593,40 @@
       centerPlay.hidden = playing;
     }
 
+function fitVideoToAvailableSpace() {
+  const availableWidth = videoFit.clientWidth;
+  const availableHeight = videoFit.clientHeight;
+
+  if (availableWidth <= 0 || availableHeight <= 0) {
+    return;
+  }
+
+  /*
+    Se utiliza la proporción real del MP4.
+    Mientras no estén disponibles sus dimensiones,
+    se utiliza 16:9 como valor provisional.
+  */
+  const videoRatio =
+    video.videoWidth > 0 && video.videoHeight > 0
+      ? video.videoWidth / video.videoHeight
+      : 16 / 9;
+
+  let stageWidth = availableWidth;
+  let stageHeight = stageWidth / videoRatio;
+
+  /*
+    Si el alto calculado excede el espacio disponible,
+    se calcula nuevamente a partir de la altura.
+  */
+  if (stageHeight > availableHeight) {
+    stageHeight = availableHeight;
+    stageWidth = stageHeight * videoRatio;
+  }
+
+  videoStage.style.width = `${Math.floor(stageWidth)}px`;
+  videoStage.style.height = `${Math.floor(stageHeight)}px`;
+}
+    
     function togglePlayback() {
       if (video.paused || video.ended) {
         video.play();
