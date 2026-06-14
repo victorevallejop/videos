@@ -149,23 +149,49 @@
         auto;
     }
 
-    .video-stage {
-      position: relative;
+/*
+  Esta zona recibe todo el espacio disponible, pero no obliga
+  al video a deformarse ni a ocupar una altura incorrecta.
+*/
+    .video-fit {
       width: 100%;
       height: 100%;
+      min-width: 0;
       min-height: 0;
+
+      display: grid;
+      place-items: center;
+
       overflow: hidden;
-      background: #000;
-      border-radius: 0 8px 0 0;
+      background: white;
+    }
+
+/*
+  El tamaño definitivo será calculado mediante JavaScript,
+  usando las dimensiones reales del archivo MP4.
+*/
+    .video-stage {
+      position: relative;
+
+      width: min(100%, 960px);
+      aspect-ratio: 16 / 9;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      overflow: hidden;
+      background: white;
+      border-radius: 8px 8px 0 0;
     }
 
     video {
       display: block;
+
       width: 100%;
       height: 100%;
-      max-height: 100%;
-      background: #000;
+
       object-fit: contain;
+      background: white;
     }
 
     .center-play {
