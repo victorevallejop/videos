@@ -643,10 +643,12 @@ function fitVideoToAvailableSpace() {
     video.addEventListener("pause", updatePlayButtons);
     video.addEventListener("ended", updatePlayButtons);
 
-    video.addEventListener("loadedmetadata", () => {
-      time.textContent =
-        `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-    });
+video.addEventListener("loadedmetadata", () => {
+  time.textContent =
+    `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
+
+  requestAnimationFrame(fitVideoToAvailableSpace);
+});
 
     video.addEventListener("timeupdate", () => {
       const percentage = video.duration
