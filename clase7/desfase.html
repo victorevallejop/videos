@@ -2,7 +2,11 @@
 <html lang="es">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
 
   <title>Desfase horizontal de una sinusoide</title>
 
@@ -33,25 +37,42 @@
     }
 
     body {
+      height: 100vh;
       height: 100dvh;
+
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto;
+      grid-template-rows:
+        auto
+        minmax(0, 1fr)
+        auto;
+
       background: var(--background);
       color: var(--text);
-      font-family: Arial, Helvetica, sans-serif;
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
     }
 
-    /* HEADER UTFSM */
+    /* =========================================================
+       HEADER UTFSM
+       ========================================================= */
+
     .site-header {
       position: relative;
+
       background: var(--navy);
       color: white;
-      box-shadow: 0 3px 8px rgb(0 0 0 / 14%);
+
+      box-shadow:
+        0 3px 8px rgb(0 0 0 / 14%);
     }
 
     .color-bars {
       position: absolute;
       inset: 0 auto 0 0;
+
       display: flex;
       width: 15px;
     }
@@ -75,12 +96,19 @@
     .header-content {
       width: min(1180px, calc(100% - 24px));
       margin: 0 auto;
-      padding: 11px 18px 10px 30px;
+
+      padding:
+        11px
+        18px
+        10px
+        30px;
     }
 
     .unit {
       margin: 0 0 3px;
+
       color: #a9d6dc;
+
       font-size: 0.68rem;
       font-weight: 700;
       letter-spacing: 0.1em;
@@ -89,132 +117,222 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(1.25rem, 2.6vw, 2rem);
+
+      font-size:
+        clamp(1.25rem, 2.6vw, 2rem);
+
       line-height: 1.05;
     }
 
     .subtitle {
       margin: 4px 0 0;
+
       color: #dce8ef;
-      font-size: clamp(0.76rem, 1.4vw, 0.95rem);
+
+      font-size:
+        clamp(0.76rem, 1.4vw, 0.95rem);
     }
 
-    /* CONTENIDO CENTRAL */
+    /* =========================================================
+       CONTENIDO PRINCIPAL
+       ========================================================= */
+
     main {
       width: min(1180px, calc(100% - 20px));
       height: 100%;
       min-height: 0;
-      margin: 7px auto;
+
+      margin: 0 auto;
+      padding: 7px 0;
+
       display: flex;
+      align-items: center;
+      justify-content: center;
+
+      overflow: hidden;
     }
 
     .video-card {
       width: 100%;
-      height: 100%;
+      max-height: 100%;
       min-height: 0;
-      overflow: hidden;
 
       display: grid;
       grid-template-rows:
         auto
-        minmax(0, 1fr)
+        auto
         auto;
 
+      overflow: hidden;
+
       background: var(--card);
+
       border: 1px solid var(--line);
       border-radius: 12px;
-      box-shadow: 0 8px 24px rgb(15 46 70 / 14%);
+
+      box-shadow:
+        0 8px 24px rgb(15 46 70 / 14%);
     }
 
     .card-label {
       justify-self: start;
-      margin: 7px 0 0 12px;
-      padding: 5px 11px;
-      border-radius: 6px 6px 0 0;
+
+      margin:
+        7px
+        0
+        0
+        12px;
+
+      padding:
+        5px
+        11px;
+
+      border-radius:
+        6px
+        6px
+        0
+        0;
+
       background: var(--teal);
       color: white;
+
       font-size: 0.68rem;
       font-weight: 800;
       letter-spacing: 0.06em;
       text-transform: uppercase;
     }
 
+    /* =========================================================
+       ZONA DEL REPRODUCTOR
+
+       No se define aspect-ratio.
+       El ancho se calcula con JavaScript usando:
+       video.videoWidth / video.videoHeight.
+       ========================================================= */
+
     .player-shell {
-      min-height: 0;
-      padding: 0 12px 8px;
-
-      display: grid;
-      grid-template-rows:
-        minmax(0, 1fr)
-        auto;
-    }
-
-/*
-  Esta zona recibe todo el espacio disponible, pero no obliga
-  al video a deformarse ni a ocupar una altura incorrecta.
-*/
-    .video-fit {
       width: 100%;
-      height: 100%;
       min-width: 0;
       min-height: 0;
 
-      display: grid;
-      place-items: center;
+      padding:
+        0
+        12px
+        8px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       overflow: hidden;
-      background: white;
     }
 
-/*
-  El tamaño definitivo será calculado mediante JavaScript,
-  usando las dimensiones reales del archivo MP4.
-*/
+    /*
+      Contiene conjuntamente el video y los controles.
+
+      JavaScript asignará su ancho después de obtener
+      las dimensiones reales del archivo MP4.
+    */
+    .media-box {
+      width: 100%;
+      max-width: 100%;
+      min-width: 0;
+
+      display: flex;
+      flex-direction: column;
+
+      overflow: hidden;
+    }
+
+    /*
+      No se fija alto ni proporción.
+
+      El elemento video proporciona su relación natural
+      una vez que se cargan los metadatos del MP4.
+    */
     .video-stage {
       position: relative;
 
-      width: min(100%, 960px);
-      aspect-ratio: 16 / 9;
-
-      max-width: 100%;
-      max-height: 100%;
+      width: 100%;
+      min-width: 0;
 
       overflow: hidden;
+
       background: white;
-      border-radius: 8px 8px 0 0;
+
+      border-radius:
+        8px
+        8px
+        0
+        0;
     }
 
     video {
       display: block;
 
       width: 100%;
-      height: 100%;
+      height: auto;
+
+      max-width: 100%;
 
       object-fit: contain;
+      object-position: center;
+
+      transform: none;
+
       background: white;
     }
 
     .center-play {
       position: absolute;
-      inset: 50% auto auto 50%;
+      inset:
+        50%
+        auto
+        auto
+        50%;
+
       width: 66px;
       height: 66px;
-      transform: translate(-50%, -50%);
+
+      transform:
+        translate(-50%, -50%);
+
       border: 0;
       border-radius: 50%;
-      background: rgb(20 62 93 / 88%);
+
+      background:
+        rgb(20 62 93 / 88%);
+
       color: white;
+
       cursor: pointer;
+
       font-size: 1.8rem;
+
+      box-shadow:
+        0 6px 18px rgb(0 0 0 / 24%);
+    }
+
+    .center-play:hover,
+    .center-play:focus-visible {
+      background: var(--teal);
+      outline: none;
     }
 
     .center-play[hidden] {
       display: none;
     }
 
-    /* CONTROLES */
+    /* =========================================================
+       CONTROLES
+       ========================================================= */
+
     .controls {
+      width: 100%;
+      flex: none;
+
       display: grid;
+
       grid-template-columns:
         auto
         minmax(80px, 1fr)
@@ -224,7 +342,11 @@
 
       gap: 8px;
       align-items: center;
-      padding: 7px 9px;
+
+      padding:
+        7px
+        9px;
+
       background: var(--navy-dark);
       color: white;
     }
@@ -232,12 +354,24 @@
     .control-button {
       min-width: 38px;
       height: 33px;
-      padding: 0 9px;
-      border: 1px solid rgb(255 255 255 / 20%);
+
+      padding:
+        0
+        9px;
+
+      border:
+        1px solid
+        rgb(255 255 255 / 20%);
+
       border-radius: 6px;
-      background: rgb(255 255 255 / 8%);
+
+      background:
+        rgb(255 255 255 / 8%);
+
       color: white;
+
       cursor: pointer;
+
       font: inherit;
       font-weight: 700;
     }
@@ -250,55 +384,87 @@
 
     .progress {
       width: 100%;
+
       accent-color: var(--amber);
+
       cursor: pointer;
     }
 
     .time {
       min-width: 95px;
+
       color: #d7e3ea;
+
       font-size: 0.76rem;
       text-align: center;
       white-space: nowrap;
     }
 
-    /* INFORMACIÓN */
+    /* =========================================================
+       INFORMACIÓN INFERIOR
+       ========================================================= */
+
     .information {
       display: grid;
-      grid-template-columns: minmax(0, 1fr) auto;
+
+      grid-template-columns:
+        minmax(0, 1fr)
+        auto;
+
       gap: 12px;
       align-items: center;
-      padding: 7px 12px 9px;
+
+      padding:
+        7px
+        12px
+        9px;
     }
 
     .description h2 {
-      margin: 0 0 2px;
+      margin:
+        0
+        0
+        2px;
+
       color: var(--navy);
+
       font-size: 0.95rem;
     }
 
     .description p {
       margin: 0;
+
       color: var(--muted);
+
       font-size: 0.78rem;
       line-height: 1.25;
     }
 
     .share-message {
       min-height: 0;
+
       margin-top: 2px !important;
+
       color: var(--teal) !important;
+
       font-size: 0.72rem !important;
     }
 
     .share-button {
       min-width: 135px;
-      padding: 9px 13px;
+
+      padding:
+        9px
+        13px;
+
       border: 0;
       border-radius: 7px;
+
       background: var(--teal);
       color: white;
+
       cursor: pointer;
+
       font: inherit;
       font-weight: 800;
     }
@@ -309,23 +475,35 @@
       outline: none;
     }
 
-    /* FOOTER */
+    /* =========================================================
+       FOOTER
+       ========================================================= */
+
     footer {
-      padding: 5px 14px;
+      padding:
+        5px
+        14px;
+
       background: var(--navy);
       color: #dce8ef;
+
       font-size: 0.68rem;
     }
 
     .footer-content {
       width: min(1180px, 100%);
       margin: 0 auto;
+
       display: flex;
       justify-content: space-between;
+
       gap: 16px;
     }
 
-    /* PANTALLAS DE POCA ALTURA */
+    /* =========================================================
+       PANTALLAS CON POCA ALTURA
+       ========================================================= */
+
     @media (max-height: 650px) {
       .unit {
         display: none;
@@ -355,16 +533,20 @@
       }
     }
 
-    /* PANTALLAS ESTRECHAS */
+    /* =========================================================
+       PANTALLAS ESTRECHAS
+       ========================================================= */
+
     @media (max-width: 720px) {
       main {
         width: calc(100% - 10px);
-        margin-top: 5px;
-        margin-bottom: 5px;
+        padding-top: 5px;
+        padding-bottom: 5px;
       }
 
       .header-content {
         width: calc(100% - 10px);
+
         padding-left: 25px;
         padding-right: 8px;
       }
@@ -387,12 +569,16 @@
       }
 
       .information {
-        grid-template-columns: minmax(0, 1fr) auto;
+        grid-template-columns:
+          minmax(0, 1fr)
+          auto;
+
         gap: 6px;
       }
 
       .share-button {
         min-width: auto;
+
         padding-left: 9px;
         padding-right: 9px;
       }
@@ -412,16 +598,23 @@
 <body>
 
   <header class="site-header">
-    <div class="color-bars" aria-hidden="true">
+    <div
+      class="color-bars"
+      aria-hidden="true"
+    >
       <span class="red"></span>
       <span class="amber"></span>
       <span class="teal"></span>
     </div>
 
     <div class="header-content">
-      <p class="unit">Unidad 1 · Trigonometría</p>
+      <p class="unit">
+        Unidad 1 · Trigonometría
+      </p>
 
-      <h1>Desfase horizontal de una sinusoide</h1>
+      <h1>
+        Desfase horizontal de una sinusoide
+      </h1>
 
       <p class="subtitle">
         Clase 7 · Gráficas de funciones trigonométricas
@@ -429,7 +622,7 @@
     </div>
   </header>
 
-  <main>
+  <main id="mainContent">
     <article class="video-card">
 
       <div class="card-label">
@@ -438,81 +631,94 @@
 
       <div class="player-shell">
 
-        <div class="video-fit" id="videoFit">
+        <div
+          class="media-box"
+          id="mediaBox"
+        >
 
-          <div class="video-stage" id="videoStage">
-
-          <video
-            id="video"
-            playsinline
-            preload="metadata"
-            controlslist="nodownload noremoteplayback"
-            disablepictureinpicture
-            oncontextmenu="return false;"
+          <div
+            class="video-stage"
+            id="videoStage"
           >
-            <source
-              src="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4"
-              type="video/mp4"
+
+            <video
+              id="video"
+              playsinline
+              preload="metadata"
+              controlslist="nodownload noremoteplayback"
+              disablepictureinpicture
+              oncontextmenu="return false;"
             >
+              <source
+                src="https://github.com/victorevallejop/videos/releases/download/clase7-v1/desfase_C.mp4"
+                type="video/mp4"
+              >
 
-            Tu navegador no permite reproducir este video.
-          </video>
+              Tu navegador no permite reproducir este video.
+            </video>
 
-          <button
-            id="centerPlay"
-            class="center-play"
-            type="button"
-            aria-label="Reproducir video"
-          >
-            ▶
-          </button>
+            <button
+              id="centerPlay"
+              class="center-play"
+              type="button"
+              aria-label="Reproducir video"
+            >
+              ▶
+            </button>
 
           </div>
-        </div>
 
-        <div class="controls">
-
-          <button
-            id="playPause"
-            class="control-button"
-            type="button"
-            aria-label="Reproducir"
-          >
-            ▶
-          </button>
-
-          <input
-            id="progress"
-            class="progress"
-            type="range"
-            min="0"
-            max="100"
-            value="0"
-            step="0.1"
-            aria-label="Posición del video"
+          <div
+            class="controls"
+            aria-label="Controles del video"
           >
 
-          <span id="time" class="time">
-            0:00 / 0:00
-          </span>
+            <button
+              id="playPause"
+              class="control-button"
+              type="button"
+              aria-label="Reproducir"
+            >
+              ▶
+            </button>
 
-          <button
-            id="mute"
-            class="control-button"
-            type="button"
-            aria-label="Silenciar"
-          >
-            🔊
-          </button>
+            <input
+              id="progress"
+              class="progress"
+              type="range"
+              min="0"
+              max="100"
+              value="0"
+              step="0.1"
+              aria-label="Posición del video"
+            >
 
-          <button
-            id="fullscreen"
-            class="control-button"
-            type="button"
-            aria-label="Pantalla completa"
-          >
-            ⛶
-          </button>
+            <span
+              id="time"
+              class="time"
+            >
+              0:00 / 0:00
+            </span>
+
+            <button
+              id="mute"
+              class="control-button"
+              type="button"
+              aria-label="Silenciar"
+            >
+              🔊
+            </button>
+
+            <button
+              id="fullscreen"
+              class="control-button"
+              type="button"
+              aria-label="Pantalla completa"
+            >
+              ⛶
+            </button>
+
+          </div>
 
         </div>
       </div>
@@ -520,11 +726,14 @@
       <section class="information">
 
         <div class="description">
-          <h2>Desfase o diferencia de fase</h2>
+          <h2>
+            Desfase o diferencia de fase
+          </h2>
 
           <p>
-            Interpretación gráfica del parámetro horizontal de una función
-            sinusoidal y de su efecto sobre la posición de la curva.
+            Interpretación gráfica del parámetro horizontal
+            de una función sinusoidal y de su efecto sobre
+            la posición de la curva.
           </p>
 
           <p
@@ -549,7 +758,8 @@
   <footer>
     <div class="footer-content">
       <span>
-        Matemática I / Elementos de la Matemática · UTFSM Viña del Mar
+        Matemática I / Elementos de la Matemática ·
+        UTFSM Viña del Mar
       </span>
 
       <span>
@@ -559,171 +769,483 @@
   </footer>
 
   <script>
-    const video = document.getElementById("video");
-    const videoStage = document.getElementById("videoStage");
-    const centerPlay = document.getElementById("centerPlay");
-    const playPause = document.getElementById("playPause");
-    const progress = document.getElementById("progress");
-    const time = document.getElementById("time");
-    const mute = document.getElementById("mute");
-    const fullscreen = document.getElementById("fullscreen");
-    const share = document.getElementById("share");
-    const shareMessage = document.getElementById("shareMessage");
-    const videoFit = document.getElementById("videoFit");
+    const mainContent =
+      document.getElementById("mainContent");
+
+    const video =
+      document.getElementById("video");
+
+    const videoStage =
+      document.getElementById("videoStage");
+
+    const mediaBox =
+      document.getElementById("mediaBox");
+
+    const centerPlay =
+      document.getElementById("centerPlay");
+
+    const playPause =
+      document.getElementById("playPause");
+
+    const progress =
+      document.getElementById("progress");
+
+    const time =
+      document.getElementById("time");
+
+    const mute =
+      document.getElementById("mute");
+
+    const fullscreen =
+      document.getElementById("fullscreen");
+
+    const share =
+      document.getElementById("share");
+
+    const shareMessage =
+      document.getElementById("shareMessage");
+
+    const playerShell =
+      document.querySelector(".player-shell");
+
+    const cardLabel =
+      document.querySelector(".card-label");
+
+    const controls =
+      document.querySelector(".controls");
+
+    const information =
+      document.querySelector(".information");
 
     function formatTime(seconds) {
       if (!Number.isFinite(seconds)) {
         return "0:00";
       }
 
-      const minutes = Math.floor(seconds / 60);
+      const minutes =
+        Math.floor(seconds / 60);
 
-      const remainingSeconds = Math.floor(seconds % 60)
-        .toString()
-        .padStart(2, "0");
+      const remainingSeconds =
+        Math.floor(seconds % 60)
+          .toString()
+          .padStart(2, "0");
 
       return `${minutes}:${remainingSeconds}`;
     }
 
-    function updatePlayButtons() {
-      const playing = !video.paused && !video.ended;
+    function getNumericStyle(element, property) {
+      const value =
+        window
+          .getComputedStyle(element)
+          .getPropertyValue(property);
 
-      playPause.textContent = playing ? "❚❚" : "▶";
-
-      centerPlay.hidden = playing;
+      return parseFloat(value) || 0;
     }
 
-function fitVideoToAvailableSpace() {
-  const availableWidth = videoFit.clientWidth;
-  const availableHeight = videoFit.clientHeight;
+    function getVerticalPadding(element) {
+      return (
+        getNumericStyle(element, "padding-top") +
+        getNumericStyle(element, "padding-bottom")
+      );
+    }
 
-  if (availableWidth <= 0 || availableHeight <= 0) {
-    return;
-  }
+    function getHorizontalPadding(element) {
+      return (
+        getNumericStyle(element, "padding-left") +
+        getNumericStyle(element, "padding-right")
+      );
+    }
 
-  /*
-    Se utiliza la proporción real del MP4.
-    Mientras no estén disponibles sus dimensiones,
-    se utiliza 16:9 como valor provisional.
-  */
-  const videoRatio =
-    video.videoWidth > 0 && video.videoHeight > 0
-      ? video.videoWidth / video.videoHeight
-      : 16 / 9;
-
-  let stageWidth = availableWidth;
-  let stageHeight = stageWidth / videoRatio;
-
-  /*
-    Si el alto calculado excede el espacio disponible,
-    se calcula nuevamente a partir de la altura.
-  */
-  if (stageHeight > availableHeight) {
-    stageHeight = availableHeight;
-    stageWidth = stageHeight * videoRatio;
-  }
-
-  videoStage.style.width = `${Math.floor(stageWidth)}px`;
-  videoStage.style.height = `${Math.floor(stageHeight)}px`;
-}
-    
-    function togglePlayback() {
-      if (video.paused || video.ended) {
-        video.play();
-      } else {
-        video.pause();
+    function getOuterHeight(element) {
+      if (!element) {
+        return 0;
       }
+
+      return (
+        element.offsetHeight +
+        getNumericStyle(element, "margin-top") +
+        getNumericStyle(element, "margin-bottom")
+      );
     }
 
-    centerPlay.addEventListener("click", togglePlayback);
-    playPause.addEventListener("click", togglePlayback);
-    video.addEventListener("click", togglePlayback);
-
-    video.addEventListener("play", updatePlayButtons);
-    video.addEventListener("pause", updatePlayButtons);
-    video.addEventListener("ended", updatePlayButtons);
-
-video.addEventListener("loadedmetadata", () => {
-  time.textContent =
-    `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-
-  requestAnimationFrame(fitVideoToAvailableSpace);
-});
-
-    video.addEventListener("timeupdate", () => {
-      const percentage = video.duration
-        ? (video.currentTime / video.duration) * 100
-        : 0;
-
-      progress.value = percentage;
-
-      time.textContent =
-        `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
-    });
-
-    progress.addEventListener("input", () => {
-      if (!video.duration) {
+    function fitVideoToMetadata() {
+      /*
+        La función no calcula nada hasta que el navegador
+        conoce las dimensiones reales del archivo MP4.
+      */
+      if (
+        video.videoWidth <= 0 ||
+        video.videoHeight <= 0
+      ) {
         return;
       }
 
-      video.currentTime =
-        (Number(progress.value) / 100) * video.duration;
-    });
+      /*
+        Relación obtenida directamente desde el video.
 
-    mute.addEventListener("click", () => {
-      video.muted = !video.muted;
+        Ejemplo para desfase_C.mp4:
+        700 / 208 ≈ 3,365.
+      */
+      const videoRatio =
+        video.videoWidth /
+        video.videoHeight;
 
-      mute.textContent = video.muted ? "🔇" : "🔊";
-    });
+      /*
+        Ancho útil dentro de playerShell.
+      */
+      const availableWidth =
+        Math.max(
+          1,
+          playerShell.clientWidth -
+          getHorizontalPadding(playerShell)
+        );
 
-    fullscreen.addEventListener("click", async () => {
+      /*
+        Altura disponible dentro de la fila central
+        del documento.
+
+        Se descuentan:
+        - padding del main;
+        - etiqueta superior;
+        - controles;
+        - información inferior;
+        - padding del reproductor;
+        - un margen de seguridad.
+      */
+      const availableHeight =
+        Math.max(
+          1,
+          mainContent.clientHeight -
+          getVerticalPadding(mainContent) -
+          getOuterHeight(cardLabel) -
+          getOuterHeight(controls) -
+          getOuterHeight(information) -
+          getVerticalPadding(playerShell) -
+          8
+        );
+
+      /*
+        Se intenta utilizar primero todo el ancho útil.
+      */
+      let stageWidth =
+        availableWidth;
+
+      let stageHeight =
+        stageWidth /
+        videoRatio;
+
+      /*
+        Si el video resultara demasiado alto para la
+        ventana, se limita mediante el alto disponible.
+      */
+      if (stageHeight > availableHeight) {
+        stageHeight =
+          availableHeight;
+
+        stageWidth =
+          stageHeight *
+          videoRatio;
+      }
+
+      stageWidth =
+        Math.max(
+          1,
+          Math.floor(stageWidth)
+        );
+
+      stageHeight =
+        Math.max(
+          1,
+          Math.floor(stageHeight)
+        );
+
+      /*
+        El ancho de mediaBox controla simultáneamente:
+        - el video;
+        - los controles inferiores.
+
+        El alto del videoStage se asigna usando la
+        relación real del archivo.
+      */
+      mediaBox.style.width =
+        `${stageWidth}px`;
+
+      videoStage.style.width =
+        `${stageWidth}px`;
+
+      videoStage.style.height =
+        `${stageHeight}px`;
+
+      /*
+        Se conserva explícitamente la relación real
+        como respaldo para el navegador.
+      */
+      video.style.aspectRatio =
+        `${video.videoWidth} / ${video.videoHeight}`;
+
+      console.log(
+        "Dimensiones reales del video:",
+        {
+          videoWidth:
+            video.videoWidth,
+
+          videoHeight:
+            video.videoHeight,
+
+          videoRatio:
+            videoRatio,
+
+          playerWidth:
+            stageWidth,
+
+          playerHeight:
+            stageHeight
+        }
+      );
+    }
+
+    function updatePlayButtons() {
+      const playing =
+        !video.paused &&
+        !video.ended;
+
+      playPause.textContent =
+        playing
+          ? "❚❚"
+          : "▶";
+
+      playPause.setAttribute(
+        "aria-label",
+        playing
+          ? "Pausar"
+          : "Reproducir"
+      );
+
+      centerPlay.hidden =
+        playing;
+    }
+
+    async function togglePlayback() {
       try {
-        if (!document.fullscreenElement) {
-          await videoStage.requestFullscreen();
+        if (
+          video.paused ||
+          video.ended
+        ) {
+          await video.play();
         } else {
-          await document.exitFullscreen();
+          video.pause();
         }
       } catch {
         shareMessage.textContent =
-          "Pantalla completa no disponible.";
+          "El navegador bloqueó la reproducción del video.";
       }
-    });
+    }
 
-    share.addEventListener("click", async () => {
-      const shareData = {
-        title: "Desfase horizontal de una sinusoide",
-        text:
-          "Explicación de Víctor Eduardo Vallejo Palacios.",
-        url: window.location.href
-      };
+    centerPlay.addEventListener(
+      "click",
+      togglePlayback
+    );
 
-      try {
-        if (navigator.share) {
-          await navigator.share(shareData);
+    playPause.addEventListener(
+      "click",
+      togglePlayback
+    );
+
+    video.addEventListener(
+      "click",
+      togglePlayback
+    );
+
+    video.addEventListener(
+      "play",
+      updatePlayButtons
+    );
+
+    video.addEventListener(
+      "pause",
+      updatePlayButtons
+    );
+
+    video.addEventListener(
+      "ended",
+      updatePlayButtons
+    );
+
+    /*
+      loadedmetadata se ejecuta cuando el navegador
+      ya conoce videoWidth, videoHeight y duration.
+    */
+    video.addEventListener(
+      "loadedmetadata",
+      () => {
+        time.textContent =
+          `${formatTime(video.currentTime)} / ` +
+          `${formatTime(video.duration)}`;
+
+        requestAnimationFrame(
+          fitVideoToMetadata
+        );
+      }
+    );
+
+    video.addEventListener(
+      "timeupdate",
+      () => {
+        const percentage =
+          video.duration
+            ? (
+                video.currentTime /
+                video.duration
+              ) * 100
+            : 0;
+
+        progress.value =
+          percentage;
+
+        time.textContent =
+          `${formatTime(video.currentTime)} / ` +
+          `${formatTime(video.duration)}`;
+      }
+    );
+
+    progress.addEventListener(
+      "input",
+      () => {
+        if (!video.duration) {
           return;
         }
 
-        await navigator.clipboard.writeText(window.location.href);
-
-        shareMessage.textContent =
-          "Enlace copiado al portapapeles.";
-      } catch {
-        shareMessage.textContent =
-          "No fue posible compartir el enlace.";
+        video.currentTime =
+          (
+            Number(progress.value) /
+            100
+          ) *
+          video.duration;
       }
-    });
+    );
 
-window.addEventListener("resize", fitVideoToAvailableSpace);
+    mute.addEventListener(
+      "click",
+      () => {
+        video.muted =
+          !video.muted;
 
-if ("ResizeObserver" in window) {
-  const videoResizeObserver =
-    new ResizeObserver(fitVideoToAvailableSpace);
+        mute.textContent =
+          video.muted
+            ? "🔇"
+            : "🔊";
 
-  videoResizeObserver.observe(videoFit);
-}
+        mute.setAttribute(
+          "aria-label",
+          video.muted
+            ? "Activar sonido"
+            : "Silenciar"
+        );
+      }
+    );
 
-fitVideoToAvailableSpace();
-    
+    fullscreen.addEventListener(
+      "click",
+      async () => {
+        try {
+          if (!document.fullscreenElement) {
+            await videoStage.requestFullscreen();
+          } else {
+            await document.exitFullscreen();
+          }
+        } catch {
+          shareMessage.textContent =
+            "Pantalla completa no disponible.";
+        }
+      }
+    );
+
+    share.addEventListener(
+      "click",
+      async () => {
+        const shareData = {
+          title:
+            "Desfase horizontal de una sinusoide",
+
+          text:
+            "Explicación de Víctor Eduardo " +
+            "Vallejo Palacios.",
+
+          url:
+            window.location.href
+        };
+
+        try {
+          if (navigator.share) {
+            await navigator.share(
+              shareData
+            );
+
+            return;
+          }
+
+          await navigator.clipboard.writeText(
+            window.location.href
+          );
+
+          shareMessage.textContent =
+            "Enlace copiado al portapapeles.";
+        } catch (error) {
+          if (error.name !== "AbortError") {
+            shareMessage.textContent =
+              "No fue posible compartir el enlace.";
+          }
+        }
+      }
+    );
+
+    /*
+      Recalcular cuando cambia el tamaño
+      de la ventana.
+    */
+    window.addEventListener(
+      "resize",
+      () => {
+        requestAnimationFrame(
+          fitVideoToMetadata
+        );
+      }
+    );
+
+    /*
+      Recalcular cuando cambia el espacio
+      disponible dentro del main.
+    */
+    if ("ResizeObserver" in window) {
+      const resizeObserver =
+        new ResizeObserver(
+          () => {
+            requestAnimationFrame(
+              fitVideoToMetadata
+            );
+          }
+        );
+
+      resizeObserver.observe(
+        mainContent
+      );
+    }
+
+    /*
+      En algunos navegadores los metadatos pueden
+      estar almacenados en caché antes de registrar
+      el evento loadedmetadata.
+    */
+    if (
+      video.readyState >= 1 &&
+      video.videoWidth > 0 &&
+      video.videoHeight > 0
+    ) {
+      requestAnimationFrame(
+        fitVideoToMetadata
+      );
+    }
+
     updatePlayButtons();
   </script>
 
